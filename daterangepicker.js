@@ -15,7 +15,7 @@
 
         daysOfWeek = [];
         monthNames = [];
-        for (var i = 1; i < 8; i++) {
+        for (var i = 0; i < 7; i++) {
             daysOfWeek.push(moment().day(i).format('dd'));
         }
         for (var i = 0; i < 12; i++) {
@@ -49,7 +49,7 @@
             customRangeLabel: 'Custom Range',
             daysOfWeek: daysOfWeek,
             monthNames: monthNames,
-            firstDay: 0
+            firstDay: 1
         };
 
         localeObject = this.locale;
