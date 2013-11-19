@@ -1,4 +1,4 @@
-# Date Range Picker for Twitter Bootstrap
+# Date Range Picker for Twitter Bootstrap 3.0+
 
 ![Improvely.com](http://i.imgur.com/LbAMf3D.png)
 
@@ -15,8 +15,10 @@ into the text box. Otherwise, you can provide a custom callback function to rece
 
 ## Usage
 
-This component relies on [Twitter Bootstrap](http://twitter.github.com/bootstrap/), 
+This component relies on [Twitter Bootstrap](http://getbootstrap.com/), 
 [Momentjs](http://www.momentjs.com/) and [jQuery](http://jquery.com/).
+
+This has now been updated to utilize Twitter Bootstrap 3.0+
 
 Basic usage:
 
