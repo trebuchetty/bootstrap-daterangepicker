@@ -29,17 +29,22 @@
         this.maxDate = false;
         this.changed = false;
         this.cleared = false;
-        this.showDropdowns = false;
-        this.ranges = {};
+        this.showDropdowns = true;
+        this.ranges = {
+            'Last 7 days': [moment().subtract({ days: 6 }), moment()],
+            'This Month': [moment().startOf('month'), moment()],
+            'Last Month': [moment().startOf('month').subtract({ months: 1 }), moment().startOf('month').subtract({ days: 1 })],
+            'Year To Date': [moment().startOf('year'), moment()]
+        };
         this.dateLimit = false;
-        this.opens = 'right';
+        this.opens = 'left';
         this.cb = function () { };
-        this.format = 'MM/DD/YYYY';
+        this.format = 'YYYY/MM/DD';
         this.separator = ' - ';
         this.showWeekNumbers = false;
-        this.buttonClasses = ['btn-success'];
-        this.applyClass = 'btn btn-small btn-success';
-        this.clearClass = 'btn btn-small btn-inverse';
+        this.buttonClasses = [];
+        this.applyClass = 'btn btn-success';
+        this.clearClass = 'btn btn-default';
         this.locale = {
             applyLabel: 'Apply',
             clearLabel: "Clear",
@@ -102,14 +107,18 @@
                   '<div class="range_inputs">' +
                     '<div class="daterangepicker_start_input" style="float: left">' +
                       '<label for="daterangepicker_start">' + this.locale.fromLabel + '</label>' +
-                      '<input class="input-mini" type="text" name="daterangepicker_start" value="" disabled="disabled" />' +
+                      '<input class="form-control input-sm" type="text" name="daterangepicker_start" value="" disabled="disabled" />' +
                     '</div>' +
-                    '<div class="daterangepicker_end_input" style="float: left; padding-left: 11px">' +
+                    '<div class="daterangepicker_end_input" style="float: left; margin-bottom: 5px;">' +
                       '<label for="daterangepicker_end">' + this.locale.toLabel + '</label>' +
-                      '<input class="input-mini" type="text" name="daterangepicker_end" value="" disabled="disabled" />' +
+                      '<input class="form-control input-sm" type="text" name="daterangepicker_end" value="" disabled="disabled" />' +
                     '</div>' +
-                    '<button class="' + this.applyClass + ' applyBtn" disabled="disabled">' + this.locale.applyLabel + '</button>&nbsp;' +
-                    '<button class="' + this.clearClass + ' clearBtn">' + this.locale.clearLabel + '</button>' +
+                    '<div class="form-group">' +
+                    '<div class="btn-group btn-group-sm">' +
+                      '<button class="' + this.applyClass + ' applyBtn" disabled="disabled">' + this.locale.applyLabel + '</button>&nbsp;' +
+                      '<button class="' + this.clearClass + ' clearBtn">' + this.locale.clearLabel + '</button>' +
+                    '</div>' +
+                    '</div>' +
                   '</div>' +
                 '</div>' +
               '</div>';
@@ -149,10 +158,13 @@
                 this.maxDate = options.maxDate;
 
             if (typeof options.ranges == 'object') {
-                for (var range in options.ranges) {
+                this.ranges = options.ranges;
+            }
+            if (typeof this.ranges == 'object') {
+                for (var range in this.ranges) {
 
-                    var start = options.ranges[range][0];
-                    var end = options.ranges[range][1];
+                    var start = this.ranges[range][0];
+                    var end = this.ranges[range][1];
 
                     if (typeof start == 'string')
                         start = moment(start);
@@ -524,7 +536,7 @@
         },
 
         updateYear: function (e) {
-            var year = parseInt($(e.target).val());
+            var year = parseInt($(e.target).val(), 10);
             var isLeft = $(e.target).closest('.calendar').hasClass('left');
 
             if (isLeft) {
@@ -537,7 +549,7 @@
         },
 
         updateMonth: function (e) {
-            var month = parseInt($(e.target).val());
+            var month = parseInt($(e.target).val(), 10);
             var isLeft = $(e.target).closest('.calendar').hasClass('left');
 
             if (isLeft) {
@@ -611,7 +623,7 @@
 
         renderDropdowns: function (selected, minDate, maxDate) {
             var currentMonth = selected.month();
-            var monthHtml = '<select class="monthselect">';
+            var monthHtml = '<select class="monthselect" style="max-width: 90px;">';
             var inMinYear = false;
             var inMaxYear = false;
 
@@ -627,7 +639,7 @@
             var currentYear = selected.year();
             var maxYear = (maxDate && maxDate.year()) || (currentYear + 5);
             var minYear = (minDate && minDate.year()) || (currentYear - 50);
-            var yearHtml = '<select class="yearselect">'
+            var yearHtml = '<select class="yearselect">';
 
             for (var y = minYear; y <= maxYear; y++) {
                 yearHtml += '<option value="' + y + '"' +
@@ -650,7 +662,7 @@
                 html += '<th></th>';
 
             if (!minDate || minDate < calendar[1][1]) {
-                html += '<th class="prev available"><i class="icon-arrow-left"></i></th>';
+                html += '<th class="prev available"><i class="glyphicon glyphicon-arrow-left"></i></th>';
             } else {
                 html += '<th></th>';
             }
@@ -663,7 +675,7 @@
 
             html += '<th colspan="5" style="width: auto">' + dateHtml + '</th>';
             if (!maxDate || maxDate > calendar[1][1]) {
-                html += '<th class="next available"><i class="icon-arrow-right"></i></th>';
+                html += '<th class="next available"><i class="glyphicon glyphicon-arrow-right"></i></th>';
             } else {
                 html += '<th></th>';
             }
