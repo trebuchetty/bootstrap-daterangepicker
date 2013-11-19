@@ -50,7 +50,7 @@ Syntax for all the options can be found in the examples.html file.
 
 ## License
 
-This code is made available under the same license as Twitter Bootstrap. Date.js is included in this repository for convenience. It is available under the 
+This code is made available under the same license as Twitter Bootstrap. 
 [MIT license](http://www.opensource.org/licenses/mit-license.php).
 
 --
